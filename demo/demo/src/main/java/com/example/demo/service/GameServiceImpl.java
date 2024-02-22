@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.plugin.GamePlugin;
+import com.example.demo.plugin.TicTacToePlugin;
 import fr.le_campus_numerique.square_games.engine.CellPosition;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.InvalidPositionException;
 import fr.le_campus_numerique.square_games.engine.Token;
-import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
-import fr.le_campus_numerique.square_games.engine.taquin.TaquinGameFactory;
-import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,16 @@ class GameServiceImpl implements GameService{
     private Game game;
 
     @Autowired
-    private GameCatalogService gameCatalog;
+    private List<GamePlugin> gamePlugins;
 
     private final HashMap<String,Game> gameMap = new HashMap<>();
 
     @Override
-    public Game createGame(String type, int playersNb, int boardSize) {
-        switch (type){
-            case "tictactoe" -> game = new TicTacToeGameFactory().createGame(playersNb, boardSize );
-            case "15 puzzle" -> game = new TaquinGameFactory().createGame(playersNb, boardSize );
-            case "connect4" -> game = new ConnectFourGameFactory().createGame(playersNb, boardSize );
+    public Game createGame(String type) {
+        for(GamePlugin gamePlugin: gamePlugins){
+           if(gamePlugin.getType().equals(type)){
+                game = gamePlugin.createGame();
+            }
         }
 
         gameMap.put(game.getId().toString(), game);
@@ -53,11 +54,5 @@ class GameServiceImpl implements GameService{
 
         return game;
     }
-
-    @Override
-    public List getGameCatalog() {
-        return List.copyOf(gameCatalog.getGameIdentifiers());
-    }
-
 
 }

@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.service.GameCatalogService;
 import com.example.demo.service.GameService;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.InvalidPositionException;
 import fr.le_campus_numerique.square_games.engine.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,10 +24,21 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    @Autowired
+    private GameCatalogService gameCatalogService;
+
+    /*
     @GetMapping("/gameCatalog")
     public List getGameCatalog() {
-        return gameService.getGameCatalog();
+        return gameCatalogService.getGameCatalog();
     }
+    */
+
+    @GetMapping("/gameCatalog")
+    public List getGameCatalog(@RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false, defaultValue = "en")Locale locale) {
+        return gameCatalogService.getGameCatalog(locale);
+    }
+
     @GetMapping("/gameParameters")
     public List getNeededGamaParameters() {
         return gameService.getGameNeededParameters();
@@ -32,7 +46,7 @@ public class GameController {
 
     @PostMapping("/games")
     public GameDTO createGame(@RequestBody GameCreationParamsDTO params) {
-        game = gameService.createGame(params.game(), params.playersNb(), params.boardSize());
+        game = gameService.createGame(params.game());
         System.out.println(game);
         return translateGameToGameDTO(game);
     }
@@ -41,6 +55,17 @@ public class GameController {
     public GameDTO getGame(@PathVariable String gameId) {
         game = gameService.getGame(gameId);
         return translateGameToGameDTO(game);
+    }
+
+    @GetMapping("/local")
+    public ResponseEntity<String> getLocal(@RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false, defaultValue = "en") String language) {
+        if(language.isEmpty()){
+            language = "en";
+        }
+        System.out.println("language: " + language);
+
+
+        return new ResponseEntity<String>("works!", HttpStatus.OK);
     }
 
     @PutMapping("/games/{gameId}")

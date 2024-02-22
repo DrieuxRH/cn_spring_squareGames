@@ -10,9 +10,7 @@ import java.util.List;
 
 public interface GameService {
 
-    List getGameCatalog();
-
-    Game createGame(String type, int playersNb, int boardSize);
+    Game createGame(String type);
 
     List getGameNeededParameters();
 
