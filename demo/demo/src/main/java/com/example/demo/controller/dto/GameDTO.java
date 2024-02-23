@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.dto;
 
 import fr.le_campus_numerique.square_games.engine.CellPosition;
 import fr.le_campus_numerique.square_games.engine.Token;
