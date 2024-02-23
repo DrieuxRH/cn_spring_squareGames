@@ -19,10 +19,10 @@ public class TicTacToePlugin implements GamePlugin{
     private Game game;
 
     @Value("${game.tictactoe.default-player-count}")
-    private String playersNb;
+    private Integer playersNb;
 
-    @Value("${game.tictactoe.default-board-size")
-    private String  boardSize;
+    @Value("${game.tictactoe.default-board-size}")
+    private Integer boardSize;
 
     @Autowired
     private MessageSource messageSource;
@@ -36,23 +36,9 @@ public class TicTacToePlugin implements GamePlugin{
     public String getType(){
         return new TicTacToeGameFactory().getGameFactoryId();
     }
-    /* Playing with @Value
-    public TicTacToePlugin(@Value("${game.tictactoe.default-player-count}") Integer playersNb) {
-        this.playersNb = playersNb;
-    }
 
-    @Value("${game.tictactoe.default-player-count}")
-    //private String playersNb;
-
-    @PostConstruct
-    public void test() {
-        System.out.println("players nb: " + playersNb);
-    }
-
-
-     */
     public Game createGame() {
-        game = new TicTacToeGameFactory().createGame(Integer.parseInt(playersNb),Integer.parseInt(boardSize));
+        game = new TicTacToeGameFactory().createGame(playersNb,boardSize);
         return game;
     }
 }

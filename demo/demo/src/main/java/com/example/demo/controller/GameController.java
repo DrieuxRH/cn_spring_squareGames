@@ -27,12 +27,6 @@ public class GameController {
     @Autowired
     private GameCatalogService gameCatalogService;
 
-    /*
-    @GetMapping("/gameCatalog")
-    public List getGameCatalog() {
-        return gameCatalogService.getGameCatalog();
-    }
-    */
 
     @GetMapping("/gameCatalog")
     public List getGameCatalog(@RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false, defaultValue = "en")Locale locale) {

@@ -16,10 +16,10 @@ public class Connect4Plugin implements GamePlugin{
     private Game game;
 
     @Value("${game.connect4.default-player-count}")
-    private String playersNb;
+    private Integer playersNb;
 
     @Value("${game.connect4.default-board-size}")
-    private String  boardSize;
+    private Integer  boardSize;
 
     @Autowired
     private MessageSource messageSource;
@@ -35,7 +35,7 @@ public class Connect4Plugin implements GamePlugin{
 
     @Override
     public Game createGame() {
-        game = new ConnectFourGameFactory().createGame(Integer.parseInt(playersNb),Integer.parseInt(boardSize));
+        game = new ConnectFourGameFactory().createGame(playersNb,boardSize);
         return game;
     }
 }

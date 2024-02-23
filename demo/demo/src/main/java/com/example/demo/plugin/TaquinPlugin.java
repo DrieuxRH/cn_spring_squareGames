@@ -17,10 +17,10 @@ public class TaquinPlugin implements GamePlugin{
     private Game game;
 
     @Value("${game.taquin.default-player-count}")
-    private String playersNb;
+    private Integer playersNb;
 
     @Value("${game.taquin.default-board-size}")
-    private String  boardSize;
+    private Integer  boardSize;
 
     @Autowired
     private MessageSource messageSource;
@@ -31,7 +31,7 @@ public class TaquinPlugin implements GamePlugin{
     }
 
     public Game createGame() {
-        game = new TaquinGameFactory().createGame(Integer.parseInt(playersNb),Integer.parseInt(boardSize));
+        game = new TaquinGameFactory().createGame(playersNb,boardSize);
         return game;
     }
 
