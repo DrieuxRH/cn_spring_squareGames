@@ -16,6 +16,10 @@ public class User{
 
     UUID id;
 
+    public User(String username, UUID id){
+        this.username = username;
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

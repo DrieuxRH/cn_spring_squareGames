@@ -1,8 +1,5 @@
 package com.example.demo.controller.dto;
 
-import fr.le_campus_numerique.square_games.engine.CellPosition;
-import fr.le_campus_numerique.square_games.engine.Token;
-
 import java.util.*;
 
 public record GameDTO(String key, String type, List players, String gameStatus,

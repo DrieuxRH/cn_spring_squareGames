@@ -20,10 +20,13 @@ public class RamUserDAO implements UserDAO{
     }
 
     @Override
-    public User getUserById(UUID id) {
+    public User getUserById(String id) {
         User correctUser = null;
+        System.out.println(UUID.fromString(id));
         for(User user : getAllUsers()){
-            if(user.getUserId() == id){
+            System.out.println("user id in loop: " + user.getUserId() );
+            if(user.getUserId().equals(UUID.fromString(id))){
+                System.out.println("found user");
                 correctUser = user;
                 break;
             }
@@ -38,9 +41,9 @@ public class RamUserDAO implements UserDAO{
     }
 
     @Override
-    public void deleteUser(UUID id) {
+    public void deleteUser(String id) {
         for(User user : getAllUsers()){
-            if(user.getUserId() == id){
+            if(user.getUserId() == UUID.fromString(id)){
                 ram.getMemoire().remove(user);
             }
         }

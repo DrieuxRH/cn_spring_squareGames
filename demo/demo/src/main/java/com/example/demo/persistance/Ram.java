@@ -2,18 +2,19 @@ package com.example.demo.persistance;
 
 import com.example.demo.user.User;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Ram {
 
     private static Ram instance;
 
-    private Collection<Object> memoire;
+    private HashSet<Object> memoire;
 
 
     private Ram(){
-        memoire = null;
+        memoire = new HashSet<Object>();
     }
 
 
@@ -28,7 +29,7 @@ public class Ram {
         memoire.add(objet);
     }
 
-    public Collection getMemoire(){
+    public HashSet<Object> getMemoire(){
         return memoire;
     }
 

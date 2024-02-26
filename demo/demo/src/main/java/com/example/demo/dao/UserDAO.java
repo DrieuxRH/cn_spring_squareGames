@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public interface UserDAO {
     public List<User> getAllUsers();
-    public com.example.demo.user.User getUserById(UUID id);
+    public User getUserById(String id);
     public void addUser(User user);
-    public void deleteUser(UUID id);
+    public void deleteUser(String id);
 
 }

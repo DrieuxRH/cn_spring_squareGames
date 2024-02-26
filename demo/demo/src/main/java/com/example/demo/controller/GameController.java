@@ -44,7 +44,6 @@ public class GameController {
     @PostMapping("/games")
     public GameDTO createGame(@RequestBody GameCreationParamsDTO params) {
         game = gameService.createGame(params.game());
-        System.out.println(game);
         return translateGameToGameDTO(game);
     }
 
@@ -59,9 +58,6 @@ public class GameController {
         if(language.isEmpty()){
             language = "en";
         }
-        System.out.println("language: " + language);
-
-
         return new ResponseEntity<String>("works!", HttpStatus.OK);
     }
 
@@ -73,8 +69,7 @@ public class GameController {
             System.out.println("bad request");
           throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Move is not allowed");
         }
-        System.out.println("game: " + game);
-        return translateGameToGameDTO(game);
+       return translateGameToGameDTO(game);
     }
 
     private List<TokenDTO> mapTokensToTokenDTO(Stream<Token> tokensStream){
