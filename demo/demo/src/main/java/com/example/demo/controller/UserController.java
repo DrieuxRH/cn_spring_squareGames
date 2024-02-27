@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.dto.UserDTO;
 import com.example.demo.controller.dto.UserMapping;
+import com.example.demo.controller.dto.UsernameDTO;
 import com.example.demo.controller.dto.UsersDTO;
 import com.example.demo.dao.MySqlUserDao;
 import com.example.demo.dao.UserDAO;
@@ -45,5 +46,16 @@ public class UserController {
         User user = userMapping.mapDtoUser(params.firstName(), params.lastName(),params.username(), params.email(), params.password());
         userDAO.addUser(user);
         return user.getUserId().toString();
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public void deleteUser(@PathVariable String userId){
+        userDAO.deleteUser(userId);
+    }
+
+    @PutMapping("/users/{userId}")
+    public UserDTO updateUsername(@PathVariable String userId, @RequestBody UsernameDTO params){
+        user = userDAO.changeUsername(params.username(), userId);
+        return new UserMapping().mapUserToDto(user);
     }
 }

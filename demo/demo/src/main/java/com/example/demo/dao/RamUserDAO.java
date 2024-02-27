@@ -49,4 +49,9 @@ public class RamUserDAO implements UserDAO{
         }
 
     }
+
+    @Override
+    public User changeUsername(String username, String id) {
+        return null;
+    }
 }
