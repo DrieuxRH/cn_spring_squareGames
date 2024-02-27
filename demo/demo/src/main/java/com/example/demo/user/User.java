@@ -13,12 +13,28 @@ public class User{
     String lastName;
     String fullName = firstName + " " + lastName;
     String username;
-
     UUID id;
+    String email;
+    String password;
 
-    public User(String username, UUID id){
-        this.username = username;
+
+    public User(UUID id, String firstName, String lastName, String fullName, String username, String email, String password) {
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fullName = fullName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String firstName, String lastName, String fullName, String username, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fullName = fullName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -61,6 +77,19 @@ public class User{
         this.id = id;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(){
+        this.password = password;
+    }
 }

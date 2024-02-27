@@ -3,9 +3,11 @@ package com.example.demo.dao;
 
 
 import com.example.demo.user.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
 
 public interface UserDAO {
     public List<User> getAllUsers();
