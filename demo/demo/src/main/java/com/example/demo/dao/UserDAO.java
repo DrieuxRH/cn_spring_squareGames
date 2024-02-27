@@ -3,17 +3,16 @@ package com.example.demo.dao;
 
 
 import com.example.demo.user.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 
 public interface UserDAO {
     public List<User> getAllUsers();
-    public User getUserById(String id);
+    public Optional<User> getUserById(String id);
     public void addUser(User user);
     public void deleteUser(String id);
-    public User changeUsername(String username, String id);
+    public Optional<User> changeUsername(String username, String id);
 
 }

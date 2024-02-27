@@ -29,7 +29,7 @@ public class ConfigDataSource {
         dSB.driverClassName("com.mysql.cj.jdbc.Driver");
 
         // MySQL specific url with database name
-        dSB.url("jdbc:mysql://localhost:6603/square_games");
+        dSB.url("jdbc:mysql://localhost:6603/square_games_spring");
 
         //MySQL specific url with database name
         //dSB.url(url);

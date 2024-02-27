@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,7 +21,7 @@ public class RamUserDAO implements UserDAO{
     }
 
     @Override
-    public User getUserById(String id) {
+    public Optional<User> getUserById(String id) {
         User correctUser = null;
         System.out.println(UUID.fromString(id));
         for(User user : getAllUsers()){
@@ -31,7 +32,7 @@ public class RamUserDAO implements UserDAO{
                 break;
             }
         }
-        return correctUser;
+        return Optional.ofNullable(correctUser);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class RamUserDAO implements UserDAO{
     }
 
     @Override
-    public User changeUsername(String username, String id) {
+    public Optional<User> changeUsername(String username, String id) {
         return null;
     }
 }

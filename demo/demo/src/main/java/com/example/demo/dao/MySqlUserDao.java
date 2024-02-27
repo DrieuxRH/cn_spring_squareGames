@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,7 @@ public class MySqlUserDao implements UserDAO {
     }
 
     @Override
-    public User getUserById(String id) {
+    public Optional<User> getUserById(String id) {
         User correctUser = null;
         String query = "SELECT * from users where uuid = ?";
         connection = JdbcConnection.getInstance().getConnection();
@@ -50,7 +51,7 @@ public class MySqlUserDao implements UserDAO {
             System.out.println("Error getting users: " + e);
         }
 
-        return correctUser;
+        return Optional.ofNullable(correctUser);
     }
 
     private static User getCorrectUser(ResultSet rs) throws SQLException {
@@ -115,7 +116,7 @@ public class MySqlUserDao implements UserDAO {
     }
 
     @Override
-    public User changeUsername(String username, String id) {
+    public Optional<User> changeUsername(String username, String id) {
         User user = null;
         String query = "UPDATE users\n" +
                         "SET username= ?" +

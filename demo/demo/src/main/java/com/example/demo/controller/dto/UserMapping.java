@@ -2,7 +2,7 @@ package com.example.demo.controller.dto;
 
 import com.example.demo.user.User;
 
-import java.util.UUID;
+import java.util.Optional;
 
 public class UserMapping {
 
@@ -12,13 +12,13 @@ public class UserMapping {
     }
 
     public UserDTO mapUserToDto(User user) {
-        return new UserDTO(user.getUserId().toString(),
+        return user != null ? new UserDTO(user.getUserId().toString(),
                             user.getFirstName(),
                             user.getLastName(),
                     user.getFirstName() + " " + user.getLastName(),
                             user.getUsername(),
                             user.getEmail(),
                             user.getPassword()
-                    );
+                    ): null;
     }
 }
