@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOGS" value="./logs" />
+
+    // Pattern de présentation du log
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <file>${HOME_LOG}</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <!-- <layout class="ch.qos.logback.classic.PatternLayout"> -->
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </encoder>
+        <!-- </layout> -->
+    </appender>
+
+
+    // Niveau de journalisation personnalisé pour tous les packages “fr.”
+    <logger name="fr" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <!-- LOG everything at INFO level -->
+    <root level="info">
+       <appender-ref ref="Console" />
+    </root>
+
+    <!-- LOG everything at ERROR level -->
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- LOG "com.baeldung*" at TRACE level -->
+    <logger name="com.baeldung" level="trace" additivity="false">
+       <appender-ref ref="Console" />
+    </logger>
+
+    <!-- LOG "com.baeldung*" at WARNING level -->
+    <logger name="com.baeldung" level="warning" additivity="false">
+        <appender-ref ref="Console" />
+    </logger>
+</configuration>

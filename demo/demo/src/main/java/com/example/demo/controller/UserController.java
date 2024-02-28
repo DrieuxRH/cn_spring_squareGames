@@ -7,6 +7,8 @@ import com.example.demo.controller.dto.UsersDTO;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.user.User;
 import com.example.demo.repository.UserRepositoryInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RestController
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private Optional<User> user;
 
 
@@ -38,12 +41,17 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public UsersDTO getAllUsers() {return new UsersDTO((List<User>) userRepositoryInterface.findAll());}
+    public UsersDTO getAllUsers() {
+        logger.info("Info level - Get all users");
+        return new UsersDTO((List<User>) userRepositoryInterface.findAll());}
 
     @GetMapping("/users/{userId}")
     public UserDTO getUsersById(@PathVariable String userId) {
+        logger.info("Info level - Get User by id: " + userId);
         User user = userRepositoryInterface.findById(UUID.fromString(userId)).orElse(null);
-        System.out.println(user);
+        if(user == null){
+            logger.error("Error level - User not found with this id: " + userId);
+        }
         return new UserMapping().mapUserToDto(user);
     }
 
