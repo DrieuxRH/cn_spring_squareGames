@@ -6,6 +6,7 @@ import org.apache.catalina.Role;
 import org.apache.catalina.UserDatabase;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Iterator;
 import java.util.UUID;

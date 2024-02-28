@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class ConfigDataSource {
 
+    /*
     @Value("${spring.datasource.url}")
     private static String url;
 
@@ -21,9 +23,25 @@ public class ConfigDataSource {
 
     @Value("${spring.datasource.driver-class-name}")
     private static String driverClassName;
+    */
 
+    private String driverClassName;
+    private String url;
+    private String username;
+    private String password;
+
+    @Profile("h2")
     @Bean
-    public static DataSource source() {
+    public String h2DbConnection() {
+        return ("h2");
+    }
+
+    @Profile("mysql")
+    @Bean
+    public String mysqlDbConnection() {
+        return ("mysql");
+    }
+    /*public static DataSource source() {
 
         DataSourceBuilder<?> dSB = DataSourceBuilder.create();
         dSB.driverClassName("com.mysql.cj.jdbc.Driver");
@@ -42,4 +60,6 @@ public class ConfigDataSource {
 
         return dSB.build();
     }
+
+     */
 }
