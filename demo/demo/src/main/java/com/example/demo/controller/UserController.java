@@ -5,13 +5,17 @@ import com.example.demo.controller.dto.UserMapping;
 import com.example.demo.controller.dto.UsernameDTO;
 import com.example.demo.controller.dto.UsersDTO;
 import com.example.demo.dao.UserDAO;
+import com.example.demo.response.ResponseHandler;
 import com.example.demo.user.User;
 import com.example.demo.repository.UserRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,18 +45,25 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public UsersDTO getAllUsers() {
+    public ResponseEntity<Object> getAllUsers() {
         logger.info("Info level - Get all users");
-        return new UsersDTO((List<User>) userRepositoryInterface.findAll());}
+        //return new UsersDTO((List<User>) userRepositoryInterface.findAll());
+        return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersDTO((List<User>) userRepositoryInterface.findAll()));
+    }
 
     @GetMapping("/users/{userId}")
-    public UserDTO getUsersById(@PathVariable String userId) {
+    //public UserDTO getUsersById(@PathVariable String userId) {
+    public ResponseEntity<Object> getUsersById(@PathVariable String userId) {
         logger.info("Info level - Get User by id: " + userId);
         User user = userRepositoryInterface.findById(UUID.fromString(userId)).orElse(null);
-        if(user == null){
-            logger.error("Error level - User not found with this id: " + userId);
+        try{
+            logger.info("Info - User found with the given id: " + userId);
+            return ResponseHandler.generateResponse("User found", HttpStatus.OK, new UserMapping().mapUserToDto(user));
+
+        } catch (Exception e){
+            logger.error("Error level - User not found with the given id: " + userId);
+            return ResponseHandler.generateResponse("User not found with the given id", HttpStatus.BAD_REQUEST, null);
         }
-        return new UserMapping().mapUserToDto(user);
     }
 
 
