@@ -1,5 +1,7 @@
 <configuration>
     <property name="HOME_LOG" value="src/main/resources/app.log"/>
+    <property name="LOG_PATH" value="src/main/resources"/>
+    <property name="HOME_LOG_ROLLING" value="src/main/resources/app_rolling.log"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${HOME_LOG}</file>
@@ -18,22 +20,41 @@
         </encoder>
     </appender>
 
-    <logger name="com.mkyong" level="debug" additivity="false">
+    <appender name="FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/logRolling.log</file>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/logRolling_%i.log
+            </fileNamePattern>
+            <minIndex>2</minIndex>
+            <maxIndex>3</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>1KB</maxFileSize>
+        </triggeringPolicy>
+
+    </appender>
+
+    <logger name="com.example.demo" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="FILE_ROLLING" />
     </logger>
 
-    <root level="error">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-    </root>
 
-
-    <!-- LOG everything at INFO level -->
+    <!-- LOG everything at INFO level and up (INFO, WARN, ERROR) -->
     <root level="info">
         <appender-ref ref="FILE" />
         <appender-ref ref="CONSOLE" />
-
+        <appender-ref ref="FILE_ROLLING" />
     </root>
 
 </configuration>

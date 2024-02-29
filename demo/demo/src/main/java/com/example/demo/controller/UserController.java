@@ -51,6 +51,7 @@ public class UserController {
         return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersDTO((List<User>) userRepositoryInterface.findAll()));
     }
 
+
     @GetMapping("/users/{userId}")
     //public UserDTO getUsersById(@PathVariable String userId) {
     public ResponseEntity<Object> getUsersById(@PathVariable String userId) {
