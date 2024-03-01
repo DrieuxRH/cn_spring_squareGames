@@ -38,9 +38,18 @@ public class UserAuth implements UserDetails {
     @Column(name="account_created_date")
     Date accountCreatedDate;
 
-    @Column(name="account_enabled")
-    Boolean accountEnabled;
+    @Column(name="mail")
+    String email;
 
+    //@Column(name="account_enabled")
+    //Boolean accountEnabled;
+
+    public UserAuth(){};
+    public UserAuth(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,6 +83,9 @@ public class UserAuth implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return accountEnabled;
+        return true;
     }
+
+
 }
+

@@ -1,5 +1,4 @@
 package com.example.demo.controller.dto;
 
-public record UserAuthDTO(String userName, String password, String mail) {
+public record UserAuthDTO(String username, String mail, String password) {
 }
-

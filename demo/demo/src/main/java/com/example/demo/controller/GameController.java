@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.controller.dto.GameCreationParamsDTO;
-import com.example.demo.controller.dto.GameDTO;
-import com.example.demo.controller.dto.TokenDTO;
-import com.example.demo.controller.dto.moveDTO;
+import com.example.demo.controller.dto.game.GameDTO;
+import com.example.demo.controller.dto.game.TokenDTO;
+import com.example.demo.controller.dto.game.moveDTO;
 import com.example.demo.service.GameCatalogService;
 import com.example.demo.service.GameService;
 import fr.le_campus_numerique.square_games.engine.Game;
