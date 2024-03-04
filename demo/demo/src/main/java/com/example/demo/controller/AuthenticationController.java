@@ -2,16 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.dto.AuthenticationParamsDTO;
 import com.example.demo.controller.dto.UserAuthDTO;
-import com.example.demo.controller.dto.UserMapping;
-import com.example.demo.controller.dto.UsersAuthDTO;
+
 import com.example.demo.repository.UserAuthRepositoryI;
 import com.example.demo.response.ResponseHandler;
-import com.example.demo.user.User;
+
+import com.example.demo.utils.JwUtil;
+
 import com.example.demo.user.UserAuth;
 import com.example.demo.utils.SecurityConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,8 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.PrivateKey;
-import java.util.List;
 
 @RestController
 public class AuthenticationController {
@@ -42,6 +42,9 @@ public class AuthenticationController {
     @Autowired
     private UserAuthRepositoryI userAuthRepository;
 
+
+    private JwUtil jwUtil;
+
     @PostMapping("/api/public/login")
     public ResponseEntity<Object> login(@RequestBody AuthenticationParamsDTO params) {
         logger.info("Info level - Authenticate users");
@@ -52,12 +55,19 @@ public class AuthenticationController {
             Authentication authenticationResponse =
                     authenticationManager.authenticate(authenticationRequest);
 
-            logger.info("Info level - Authenticate 2");
-            if(authenticationResponse.isAuthenticated())             {
+            logger.info("Info level - Authenticate 3");
+            if(authenticationResponse.isAuthenticated()) {
                 System.out.println("authenticated");
+                UserAuth userAuth = (UserAuth) authenticationRequest.getPrincipal();
+                String token = jwUtil.createToken(userAuth);
+                System.out.println(token);
+                HttpHeaders responseHeaders = new HttpHeaders();
+
+
+
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Error(e.getMessage());
         }
         return null;
     };
