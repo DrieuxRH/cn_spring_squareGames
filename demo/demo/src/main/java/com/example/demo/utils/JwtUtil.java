@@ -1,38 +1,43 @@
 package com.example.demo.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static io.jsonwebtoken.security.Keys.secretKeyFor;
-
 @Component
-public class JwUtil {
+public class JwtUtil {
 
     @Autowired
     private Environment env;
-
-    /*
-    @Value("${jwt.secret}")
-    private String secret_key;
-    */
+    //private final JwtParser jwtParser;
+    private final String TOKEN_HEADER = "Authorization";
+    private final String TOKEN_PREFIX = "Bearer ";
 
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("jwt.secret"));
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public JwtUtil(){
+        //this.jwtParser = jwtParser;
+        //byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("jwt.secret"));
+        //SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+        //this.jwtParser = Jwts.parser().verifyWith(key).build();
+    }
+
+
 
 
     //private final String secret_key = "mysecretkey";
@@ -51,5 +56,38 @@ public class JwUtil {
                 //.signWith(SignatureAlgorithm.HS256, secret_key)
                 .signWith(getSigningKey())
                 .compact();
+    }
+
+    public String resolveToken(HttpServletRequest request){
+        String bearerToken = request.getHeader(TOKEN_HEADER);
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.substring(TOKEN_PREFIX.length());
+        }
+        return null;
+    }
+
+
+
+    private Claims parseJwtClaims(String token) {
+        System.out.println(Jwts.claims().subject(token).build());
+        return Jwts.claims().subject(token).build();
+    }
+
+
+    public Claims resolveClaims(HttpServletRequest request) {
+        try {
+            String token = resolveToken(request);
+            /*
+            if (token != null) {
+
+                return parseJwtClaims(token);
+            }
+            */
+            return null;
+
+        } catch (Exception ex) {
+            request.setAttribute("invalid", ex.getMessage());
+            throw ex;
+        }
     }
 }

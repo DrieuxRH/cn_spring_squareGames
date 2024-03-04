@@ -6,7 +6,7 @@ import com.example.demo.controller.dto.UserAuthDTO;
 import com.example.demo.repository.UserAuthRepositoryI;
 import com.example.demo.response.ResponseHandler;
 
-import com.example.demo.utils.JwUtil;
+import com.example.demo.utils.JwtUtil;
 
 import com.example.demo.user.UserAuth;
 import com.example.demo.utils.SecurityConfig;
@@ -43,7 +43,7 @@ public class AuthenticationController {
     private UserAuthRepositoryI userAuthRepository;
 
     @Autowired
-    private JwUtil jwUtil;
+    private JwtUtil jwUtil;
 
 
 
@@ -78,7 +78,7 @@ public class AuthenticationController {
                 .body("User logged in");
     };
 
-        
+
     @PostMapping("usersAuth")
     public ResponseEntity<Object> createUser(@RequestBody UserAuthDTO params) {
         logger.info("Info level - Authenticate users");

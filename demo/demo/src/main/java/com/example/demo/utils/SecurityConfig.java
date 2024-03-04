@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -26,6 +27,8 @@ public class SecurityConfig {
     AuthenticationConfiguration authenticationConfiguration;
     @Autowired
     MyUserDetailsService myUserDetailsService;
+    @Autowired
+    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -50,9 +53,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(HttpMethod.POST,"/api/public/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/usersAuth").permitAll()
+                                .anyRequest().authenticated()
 
 
                 )
+                .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(myUserDetailsService).authenticationManager(authenticationConfiguration.getAuthenticationManager());
                 //.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
                 //.authorizeHttpRequests(request -> request.anyRequest().authenticated());

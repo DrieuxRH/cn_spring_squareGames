@@ -8,6 +8,7 @@ import com.example.demo.dao.UserDAO;
 import com.example.demo.response.ResponseHandler;
 import com.example.demo.user.User;
 import com.example.demo.repository.UserRepositoryInterface;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class UserController {
 
 
     @PostMapping("/users")
-    public String addUser(@RequestBody UserDTO params){
+    public String addUser(@Valid @RequestBody UserDTO params){
         User user = userMapping.mapDtoUser(params.firstName(), params.lastName(),params.username(), params.email(), params.password());
         //userDAO.addUser(user);
         System.out.println(user.toString());
