@@ -42,12 +42,16 @@ public class AuthenticationController {
     @Autowired
     private UserAuthRepositoryI userAuthRepository;
 
-
+    @Autowired
     private JwUtil jwUtil;
+
+
+
 
     @PostMapping("/api/public/login")
     public ResponseEntity<Object> login(@RequestBody AuthenticationParamsDTO params) {
         logger.info("Info level - Authenticate users");
+        HttpHeaders responseHeaders = new HttpHeaders();
         try {
             Authentication authenticationRequest =
                     UsernamePasswordAuthenticationToken.unauthenticated(params.username(), params.password());
@@ -58,10 +62,9 @@ public class AuthenticationController {
             logger.info("Info level - Authenticate 3");
             if(authenticationResponse.isAuthenticated()) {
                 System.out.println("authenticated");
-                UserAuth userAuth = (UserAuth) authenticationRequest.getPrincipal();
-                String token = jwUtil.createToken(userAuth);
+                String token = jwUtil.createToken(authenticationResponse);
                 System.out.println(token);
-                HttpHeaders responseHeaders = new HttpHeaders();
+                responseHeaders.set("Authorization", "Bearer " + token);
 
 
 
@@ -69,23 +72,13 @@ public class AuthenticationController {
         } catch (Exception e) {
             throw new Error(e.getMessage());
         }
-        return null;
+        //return ResponseHandler.generateResponse("User logged in with token", HttpStatus.OK,null);
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body("User logged in");
     };
 
-        /*//try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(params.username(), params.password()));
-        //} catch (Exception e){
-        //    System.out.println(e);
-        //}
-        System.out.println("Authentication: " );
-        return ResponseHandler.generateResponse("Users found", HttpStatus.OK, null);
-
-
-
-
-
-    }
-*/
+        
     @PostMapping("usersAuth")
     public ResponseEntity<Object> createUser(@RequestBody UserAuthDTO params) {
         logger.info("Info level - Authenticate users");
