@@ -31,6 +31,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             }
             System.out.println("token : " + accessToken);
             Claims claims = jwUtil.resolveClaims(request);
+            System.out.println("payload: " + claims);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
