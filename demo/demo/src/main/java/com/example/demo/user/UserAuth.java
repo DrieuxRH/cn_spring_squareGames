@@ -2,6 +2,7 @@ package com.example.demo.user;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,34 +22,38 @@ public class UserAuth implements UserDetails {
     @Column(name="uuid")
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    UUID id;
+    private UUID id;
 
     @Column(name="username")
-    String username;
+    private String username;
 
     @Column(name="password")
-    String password;
+    private String password;
 
     @Column(name="password_change_date")
-    Date passwordChangeDate;
+    private Date passwordChangeDate;
 
     @Column(name="last_activity_date")
-    Date lastActivityDate;
+    @CreationTimestamp
+    private Date lastActivityDate;
 
     @Column(name="account_created_date")
-    Date accountCreatedDate;
+    @CreationTimestamp
+    private Date accountCreatedDate;
 
     @Column(name="mail")
-    String email;
+    private String email;
 
-    //@Column(name="account_enabled")
-    //Boolean accountEnabled;
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 
     public UserAuth(){};
     public UserAuth(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = Roles.ROLE_USER;
     }
 
     @Override
@@ -86,6 +91,12 @@ public class UserAuth implements UserDetails {
         return true;
     }
 
+    public Roles getRole() {
+        return role;
+    }
 
+    public void setRole(Roles role) {
+        this.role = role;
+    }
 }
 

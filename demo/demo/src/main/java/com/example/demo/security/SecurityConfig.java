@@ -1,6 +1,8 @@
-package com.example.demo.utils;
+package com.example.demo.security;
 
+import com.example.demo.security.JwtTokenAuthenticationFilter;
 import com.example.demo.service.MyUserDetailsService;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +26,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    AuthenticationConfiguration authenticationConfiguration;
+    private AuthenticationConfiguration authenticationConfiguration;
     @Autowired
-    MyUserDetailsService myUserDetailsService;
+    private MyUserDetailsService myUserDetailsService;
     @Autowired
-    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
+    private JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -45,7 +48,7 @@ public class SecurityConfig {
 
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
@@ -53,9 +56,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(HttpMethod.POST,"/api/public/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/usersAuth").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/usersAuth/only_admin").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
-                                //.anyRequest().permitAll()
-
 
                 )
                 .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

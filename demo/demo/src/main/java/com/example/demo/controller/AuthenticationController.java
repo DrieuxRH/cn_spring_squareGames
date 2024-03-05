@@ -6,10 +6,10 @@ import com.example.demo.controller.dto.UserAuthDTO;
 import com.example.demo.repository.UserAuthRepositoryI;
 import com.example.demo.response.ResponseHandler;
 
-import com.example.demo.utils.JwtUtil;
+import com.example.demo.security.JwtUtil;
 
 import com.example.demo.user.UserAuth;
-import com.example.demo.utils.SecurityConfig;
+import com.example.demo.security.SecurityConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -97,17 +98,14 @@ public class AuthenticationController {
 
     }
 
-
-    /*
-    @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>("User login successfully!...", HttpStatus.OK);
+    @GetMapping("/usersAuth/only_admin")
+    public ResponseEntity<Object> getAllUsers() {
+        logger.info("Info level - Get all users");
+        return ResponseHandler.generateResponse("Only For Admins", HttpStatus.OK, null);
     }
 
-     */
+
+
 }
 
 

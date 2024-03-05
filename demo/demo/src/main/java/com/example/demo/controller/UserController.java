@@ -77,6 +77,7 @@ public class UserController {
         return user.getUserId().toString();
     }
 
+
     @DeleteMapping("/users/{userId}")
     public void deleteUser(@PathVariable String userId){
         userDAO.deleteUser(userId);

@@ -8,6 +8,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import java.io.StringBufferInputStream;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -16,28 +17,31 @@ import java.util.UUID;
 public class User{
 
     @Column(name="first_name")
-    String firstName;
+    private String firstName;
 
     @Column(name="last_name")
-    String lastName;
+    private String lastName;
 
     @Transient
-    String fullName;
+    private String fullName;
     @Column(name="username")
-    String username;
+    private String username;
 
     @Id
     //@Basic(optional = false)
     @Column(name="uuid")
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    UUID id;
+    private UUID id;
 
     @Column(name="mail")
-    String email;
+    private String email;
 
     @Column(name="password")
-    String password;
+    private String password;
+
+//    @Column(name = "role" )
+//    String role;
 
 
 
@@ -118,12 +122,21 @@ public class User{
         this.password = password;
     }
 
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
+
     @Override
     public String toString(){
         return "Username: " + getUsername() + "\n" +
                 "First name: " + getFirstName() + "\n" +
                 "Last Name: " + getLastName() + "\n" +
-                "Id: " + getUserId();
+                "Id: " + getUserId() + "\n" ;
+
 
 
     }
