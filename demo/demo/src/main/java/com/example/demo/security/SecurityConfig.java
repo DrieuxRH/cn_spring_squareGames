@@ -55,13 +55,14 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(HttpMethod.POST,"/api/public/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/usersAuth/only_admin").hasRole("USER")
                                 .requestMatchers(HttpMethod.POST,"/usersAuth").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/usersAuth/only_admin").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
 
                 )
                 .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .userDetailsService(myUserDetailsService).authenticationManager(authenticationConfiguration.getAuthenticationManager());
+                .userDetailsService(myUserDetailsService).authenticationManager(authenticationConfiguration.getAuthenticationManager())
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
