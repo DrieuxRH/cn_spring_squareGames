@@ -54,14 +54,13 @@ public class SecurityConfig {
                         authorize.requestMatchers(HttpMethod.POST,"/api/public/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/usersAuth").permitAll()
                                 .anyRequest().authenticated()
+                                //.anyRequest().permitAll()
 
 
                 )
                 .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(myUserDetailsService).authenticationManager(authenticationConfiguration.getAuthenticationManager());
-                //.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-                //.authorizeHttpRequests(request -> request.anyRequest().authenticated());
-                //.authorizeHttpRequests(auht -> auth)
+
         return http.build();
     }
 

@@ -48,7 +48,6 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<Object> getAllUsers() {
         logger.info("Info level - Get all users");
-        //return new UsersDTO((List<User>) userRepositoryInterface.findAll());
         return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersDTO((List<User>) userRepositoryInterface.findAll()));
     }
 

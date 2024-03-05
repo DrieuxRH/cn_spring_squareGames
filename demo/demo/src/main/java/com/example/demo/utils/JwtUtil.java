@@ -39,17 +39,18 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private long accessTokenValidity = 60*60*1000;
+    //private long accessTokenValidity = 60*60*1000;
+    private long accessTokenValidity = 60*60;
 
     public String createToken(Authentication authenticationResponse) {
         Date tokenCreateTime = new Date();
-        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
+        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.SECONDS.toMillis(accessTokenValidity));
         return Jwts.builder()
-                .claims().add("Username",authenticationResponse.getPrincipal().toString()).and()
+                //.claims().add("Username",authenticationResponse.getPrincipal().toString()).and()
+                .claims().add("Username",authenticationResponse.getName()).and()
                 .expiration(tokenValidity)
-                //.signWith(SignatureAlgorithm.HS256, secret_key)
-                .signWith(getSigningKey())
-                .compact();
+                            .signWith(getSigningKey())
+                            .compact();
     }
 
     public String resolveToken(HttpServletRequest request){
@@ -63,7 +64,6 @@ public class JwtUtil {
 
 
     private Claims parseJwtClaims(String token) {
-        System.out.println(Jwts.claims().subject(token).build());
         System.out.println(Jwts.parser().verifyWith(getPrivateSigningKey()).build().parseSignedClaims(token).getPayload());
         return Jwts.parser().verifyWith(getPrivateSigningKey()).build().parseSignedClaims(token).getPayload();
     }
@@ -73,14 +73,22 @@ public class JwtUtil {
         try {
             String token = resolveToken(request);
             if (token != null) {
+                Claims claims = parseJwtClaims(token);
+                System.out.println("Expiration: " + claims.getExpiration());
                 return parseJwtClaims(token);
             }
+            System.out.println();
             return null;
         }catch (ExpiredJwtException ex) {
             System.out.println("Expired");
+            throw ex;
         } catch (Exception ex) {
             System.out.println("Invalid");
+            throw ex;
         }
-        return null;
+    }
+
+    public boolean validateClaims(Claims claims) {
+        return claims.getExpiration().after(new Date());
     }
 }

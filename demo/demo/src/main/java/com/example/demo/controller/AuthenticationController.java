@@ -58,6 +58,7 @@ public class AuthenticationController {
             logger.info("Info level - Authenticate 2");
             Authentication authenticationResponse =
                     authenticationManager.authenticate(authenticationRequest);
+            System.out.println("authentication response: " + authenticationResponse.getName());
 
             logger.info("Info level - Authenticate 3");
             if(authenticationResponse.isAuthenticated()) {

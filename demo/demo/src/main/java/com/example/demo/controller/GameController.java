@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.controller.dto.GameCreationParamsDTO;
+import com.example.demo.controller.dto.UsersDTO;
 import com.example.demo.controller.dto.game.GameDTO;
 import com.example.demo.controller.dto.game.TokenDTO;
 import com.example.demo.controller.dto.game.moveDTO;
+import com.example.demo.response.ResponseHandler;
 import com.example.demo.service.GameCatalogService;
 import com.example.demo.service.GameService;
+import com.example.demo.user.User;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.InvalidPositionException;
 import fr.le_campus_numerique.square_games.engine.Token;
@@ -31,10 +34,12 @@ public class GameController {
     private GameCatalogService gameCatalogService;
 
 
+
     @GetMapping("/gameCatalog")
     public List getGameCatalog(@RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false, defaultValue = "en")Locale locale) {
         return gameCatalogService.getGameCatalog(locale);
     }
+
 
     @GetMapping("/gameParameters")
     public List getNeededGamaParameters() {
