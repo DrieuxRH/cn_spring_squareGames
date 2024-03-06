@@ -1,15 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.GameCreationParamsDTO;
-import com.example.demo.controller.dto.UsersDTO;
+import com.example.demo.controller.dto.game.GameCreationParamsDTO;
 import com.example.demo.controller.dto.game.GameDTO;
 import com.example.demo.controller.dto.game.TokenDTO;
 import com.example.demo.controller.dto.game.moveDTO;
-import com.example.demo.response.ResponseHandler;
 import com.example.demo.service.GameCatalogService;
 import com.example.demo.service.GameService;
-import com.example.demo.user.Roles;
-import com.example.demo.user.User;
 import fr.le_campus_numerique.square_games.engine.Game;
 import fr.le_campus_numerique.square_games.engine.InvalidPositionException;
 import fr.le_campus_numerique.square_games.engine.Token;
@@ -18,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.UserDTO;
-import com.example.demo.controller.dto.UserMapping;
-import com.example.demo.controller.dto.UsernameDTO;
-import com.example.demo.controller.dto.UsersDTO;
+import com.example.demo.controller.dto.user.UserDTO;
+import com.example.demo.controller.dto.user.UserMapping;
+import com.example.demo.controller.dto.user.UsernameDTO;
+import com.example.demo.controller.dto.user.UsersDTO;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.response.ResponseHandler;
 import com.example.demo.user.User;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 import java.util.List;
 import java.util.Optional;

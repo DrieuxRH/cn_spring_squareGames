@@ -17,14 +17,10 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserAuth loadUserByUsername(String username) throws UsernameNotFoundException {
         return userAuthRepository.findByUsername(username);
     }
-    /*
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAuth userAuth = (UserAuth) userAuthRepository.findByUsername(username);
-        if (userAuth == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
 
-        return userAuth;
-    }*/
+    /**
+     *
+     */
+    //public UserDTO
+
 }

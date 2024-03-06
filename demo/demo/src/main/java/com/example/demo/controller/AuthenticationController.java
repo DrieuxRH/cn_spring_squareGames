@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.AuthenticationParamsDTO;
-import com.example.demo.controller.dto.UserAuthDTO;
+import com.example.demo.controller.dto.user.AuthenticationParamsDTO;
+import com.example.demo.controller.dto.user.UserAuthDTO;
 
 import com.example.demo.repository.UserAuthRepositoryI;
 import com.example.demo.response.ResponseHandler;
