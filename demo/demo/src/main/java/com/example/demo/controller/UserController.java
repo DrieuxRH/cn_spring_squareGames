@@ -80,7 +80,6 @@ public class UserController {
     @PostMapping("/users")
     public String addUser(@Valid @RequestBody UserDTO params){
         User user = userMapping.mapDtoUser(params.firstName(), params.lastName(),params.username(), params.email(), params.password());
-        //userDAO.addUser(user);
         System.out.println(user.toString());
         userRepositoryInterface.save(user);
         return user.getUserId().toString();
