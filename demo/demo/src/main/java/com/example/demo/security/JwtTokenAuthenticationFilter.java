@@ -48,6 +48,8 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
                 UserAuth userAuth = myUserDetailsService.loadUserByUsername(username);
                 System.out.println("authorities: " + userAuth.getAuthorities());
                 System.out.println("roles: " + userAuth.getRole());
+
+                //TODO is the final problem, or usinf the getAuthorities() ??
                 final UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userAuth,null,
                                 userAuth == null ? List.of() : userAuth.getAuthorities()
