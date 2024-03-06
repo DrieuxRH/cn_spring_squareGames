@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.dto.user.UserDTO;
-import com.example.demo.controller.dto.user.UserMapping;
-import com.example.demo.controller.dto.user.UsernameDTO;
-import com.example.demo.controller.dto.user.UsersDTO;
+import com.example.demo.controller.dto.user.*;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.response.ResponseHandler;
+import com.example.demo.service.MyUserDetailsService;
 import com.example.demo.user.User;
 import com.example.demo.repository.UserRepositoryInterface;
 import jakarta.validation.Valid;
@@ -37,20 +35,32 @@ public class UserController {
     @Autowired
     private UserRepositoryInterface userRepositoryInterface;
 
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
     private UserMapping userMapping;
 
     UserController(){
         this.userMapping = new UserMapping();
     }
 
-
+    /**
+    * Loads a list for all the users, and their roles.
+     * Only available for the admins.
+    */
     @GetMapping("/users")
     public ResponseEntity<Object> getAllUsers() {
         logger.info("Info level - Get all users");
-        return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersDTO((List<User>) userRepositoryInterface.findAll()));
+        //return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersDTO((List<User>) userRepositoryInterface.findAll()));
+        return ResponseHandler.generateResponse("Users found", HttpStatus.OK, new UsersAuthDTO((List<UserAuthSendDTO>) myUserDetailsService.loadUserListToSend()));
     }
 
 
+    /**
+     *
+     * @param: as pathvariable the id of the user
+     * @return: info about the user
+     */
     @GetMapping("/users/{userId}")
     //public UserDTO getUsersById(@PathVariable String userId) {
     public ResponseEntity<Object> getUsersById(@PathVariable String userId) {

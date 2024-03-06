@@ -5,6 +5,6 @@ import com.example.demo.user.UserAuth;
 
 import java.util.List;
 
-public record UsersAuthDTO(List<UserAuth> usersList) {
+public record UsersAuthDTO(List<UserAuthSendDTO> usersList) {
 
 }

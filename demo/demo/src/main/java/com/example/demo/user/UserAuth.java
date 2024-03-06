@@ -96,6 +96,8 @@ public class UserAuth implements UserDetails {
         return role;
     }
 
+    public String getEmail(){return email;}
+
     public void setRole(Roles role) {
         this.role = role;
     }
