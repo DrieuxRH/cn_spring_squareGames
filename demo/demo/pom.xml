@@ -8,6 +8,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.2</version>
+		<!-- <packaging>jar</packaging> -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -63,7 +64,7 @@
 			<version>0.12.5</version>
 		</dependency>
 
-		<!-- Crete and crypting jwt jeton -->
+		<!-- Crete and encrypting jwt jeton -->
 		<dependency>
 			<groupId>jakarta.xml.bind</groupId>
 			<artifactId>jakarta.xml.bind-api</artifactId>
