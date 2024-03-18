@@ -1,0 +1,22 @@
+stages: [stage_test,stage_compilation, stage_execution]
+tests :
+  stage: stage_test
+  script:
+    echo "Tests..."
+
+compilation:
+  stage: stage_compilation
+  image: maven:3.9.6-eclipse-temurin-21
+  before_script:
+    - COPY pom.xml .
+    - COPY src ./src
+    - ADD settings.xml /root/.m2/settings.xml
+  script: RUN mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - demo-0.0.1-SNAPSHOT.jar
+
+deuxieme_job:
+  stage: stage_execution
+  script:
+    CMD ["java", "-jar", "demo-0.0.1-SNAPSHOT.jar"]
